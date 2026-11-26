@@ -5,64 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>購物車</title>
 
-  <!-- PWA & Mobile Web App Meta Tags -->
+  <!-- PWA & iOS Mobile Web App Setup -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="購物車">
   <meta name="theme-color" content="#F7F5F2">
 
-  <!-- iOS Home Screen & Browser Icons -->
+  <!-- Home Screen & Browser Icons -->
   <link rel="apple-touch-icon" href="logo.png">
   <link rel="icon" type="image/png" href="logo.png">
 
   <style>
     /* =========================================
-       Light Morandi Color Tokens (淡色系莫蘭迪)
+       Original Soft Morandi Color Tokens
        ========================================= */
     :root {
       --bg-page: #F7F5F2;
       --bg-card: #FFFFFF;
       --bg-input: #FFFFFF;
-      --border-card: #EAE6DF;
-      --border-input: #E2DDD5;
-      --border-focus: #9FB3C2;
+      --border-header: #EAE5DD;
+      --border-card: #EAE5DD;
+      --border-input: #E3DDD5;
+      --border-focus: #A6B8C7;
 
-      /* Light Morandi Accents */
-      --primary: #9FB3C2;
-      --primary-hover: #89A0B2;
-      --primary-text: #FFFFFF;
+      /* Primary Action: Soft Dusty Morandi Blue */
+      --primary: #C8D6E2;
+      --primary-active: #B9C9D7;
+      --primary-text: #354554;
 
-      --secondary: #A7BCA9;
-      --secondary-hover: #93AB96;
-      --secondary-text: #FFFFFF;
+      /* Edit Mode Update: Soft Sage Green */
+      --secondary: #CAD9CE;
+      --secondary-active: #BACBBF;
+      --secondary-text: #35483A;
 
-      --neutral: #E9E5DF;
-      --neutral-hover: #DDD8D0;
+      /* Neutral Controls */
+      --neutral: #ECE8E2;
+      --neutral-active: #E0DBD3;
 
-      --danger: #D9AEAE;
-      --danger-hover: #CCA0A0;
-      --danger-text: #FFFFFF;
+      /* Delete / Over-Budget: Soft Dusty Rose */
+      --danger: #E6D1D1;
+      --danger-border: #C48F8F;
+      --danger-active: #DABBBB;
+      --danger-text: #8A4E4E;
       --danger-soft-bg: #FAF2F2;
-      --danger-soft-text: #A86B6B;
 
-      --checkbox-checked: #9FB3C2;
-
-      /* Progress Bar Tokens */
+      /* Checkbox & Progress Bar */
+      --checkbox-checked: #8FA4B6;
       --prog-track: #ECE8E2;
-      --prog-normal: #9FB3C2;
-      --prog-warning: #DFC9A6;
-      --prog-over: #D9AEAE;
+      --prog-normal: #9EB3C4;
+      --prog-warning: #DFC8A2;
+      --prog-over: #C48F8F;
 
       /* Typography */
-      --text-primary: #4F4E4B;
-      --text-muted: #8D8A84;
+      --text-primary: #3E3C3A;
+      --text-muted: #8A857E;
 
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --shadow-card: 0 1px 4px rgba(79, 78, 75, 0.04);
-      --shadow-sticky: 0 -4px 16px rgba(79, 78, 75, 0.05);
+      --shadow-card: 0 1px 3px rgba(62, 60, 58, 0.04);
+      --shadow-sticky: 0 -3px 12px rgba(62, 60, 58, 0.05);
       --font-sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Inter", sans-serif;
     }
 
@@ -77,14 +80,14 @@
       background-color: var(--bg-page);
       color: var(--text-primary);
       font-family: var(--font-sans);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.4;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
     /* =========================================
-       Crisp Solid Sticky Header (無模糊、純色底)
+       Crisp Solid Sticky Header (No Blur)
        ========================================= */
     .app-header {
       position: sticky;
@@ -92,8 +95,8 @@
       z-index: 60;
       width: 100%;
       background-color: var(--bg-page);
-      border-bottom: 1px solid var(--border-card);
-      padding: calc(12px + env(safe-area-inset-top)) 14px 10px;
+      border-bottom: 1px solid var(--border-header);
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
     }
 
     .app-header-inner {
@@ -105,14 +108,6 @@
       gap: 10px;
     }
 
-    /* Main Container */
-    .app-container {
-      width: 100%;
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 12px 14px calc(92px + env(safe-area-inset-bottom));
-    }
-
     .brand-title {
       margin: 0;
       font-size: 20px;
@@ -122,9 +117,10 @@
       flex-shrink: 0;
     }
 
+    /* Compact Clickable Budget Pill */
     .budget-bar {
       flex: 1;
-      max-width: 240px;
+      max-width: 248px;
       background-color: var(--bg-card);
       border: 1px solid var(--border-input);
       border-radius: 999px;
@@ -133,7 +129,7 @@
       flex-direction: column;
       gap: 4px;
       cursor: pointer;
-      transition: border-color 0.2s, transform 0.12s;
+      transition: border-color 0.2s, transform 0.1s;
       font-family: inherit;
       text-align: left;
     }
@@ -148,21 +144,29 @@
       align-items: center;
       justify-content: space-between;
       gap: 6px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-primary);
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .budget-bar-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .budget-bar-muted {
       color: var(--text-muted);
       font-weight: 500;
+      flex-shrink: 0;
     }
 
     .budget-bar-over {
-      color: var(--danger-soft-text);
+      color: var(--danger-text);
       font-weight: 700;
+      flex-shrink: 0;
     }
 
     .budget-track {
@@ -190,120 +194,104 @@
     }
 
     /* =========================================
-       Frameless Input Area (無外框架、48px 高度)
+       Main Content Container
+       ========================================= */
+    .app-container {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 10px 12px calc(86px + env(safe-area-inset-bottom));
+    }
+
+    /* =========================================
+       Compact 2-Row Frameless Input Area
        ========================================= */
     .input-panel {
       background: transparent;
       border: none;
-      border-radius: 0;
       padding: 0;
-      margin-bottom: 14px;
-      box-shadow: none;
-    }
-
-    .form-row {
       margin-bottom: 10px;
     }
 
-    .form-row-2col {
+    .form-row-1 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 1.2fr);
+      gap: 6px;
     }
 
     .name-field-wrap {
-      width: 100%;
       position: relative;
+      min-width: 0;
     }
 
-    /* Unified 48px Form Controls */
+    /* Unified 46px Form Controls */
     .field-input,
     .field-select {
       width: 100%;
-      height: 48px;
-      padding: 0 12px;
+      height: 46px;
+      padding: 0 10px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-input);
       background-color: var(--bg-input);
       color: var(--text-primary);
-      font-size: 16px;
+      font-size: 15px;
       font-family: inherit;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.18s, box-shadow 0.18s;
       appearance: none;
       -webkit-appearance: none;
     }
 
     .field-input::placeholder {
       color: var(--text-muted);
+      font-size: 14px;
     }
 
     .field-input:focus,
     .field-select:focus {
       background-color: #FFFFFF;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(159, 179, 194, 0.18);
+      box-shadow: 0 0 0 2px rgba(166, 184, 199, 0.22);
     }
 
     .field-numeric {
       font-variant-numeric: tabular-nums;
     }
 
-    /* Clear button inside item name */
-    .name-field-wrap .field-input {
-      padding-right: 36px;
-    }
-
-    .clear-name-btn {
-      position: absolute;
-      right: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 30px;
-      height: 30px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .clear-name-btn.visible {
-      display: flex;
-    }
-
-    /* Quantity Unified Box: Value on Left, Both ◀ ▶ Arrows Grouped on Right */
+    /* Quantity Unified Control: Select Left + ◀ ▶ Arrows Side-by-Side Right */
     .qty-box {
-      height: 48px;
+      height: 46px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-input);
       background-color: var(--bg-input);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 5px 0 12px;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      padding: 0 4px 0 8px;
+      transition: border-color 0.18s, box-shadow 0.18s;
       min-width: 0;
     }
 
     .qty-box:focus-within {
-      background-color: #FFFFFF;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(159, 179, 194, 0.18);
+      box-shadow: 0 0 0 2px rgba(166, 184, 199, 0.22);
     }
 
     .qty-select {
       flex: 1;
-      min-width: 34px;
+      min-width: 26px;
       height: 100%;
       border: none;
       background: transparent;
       color: var(--text-primary);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       font-family: inherit;
       font-variant-numeric: tabular-nums;
@@ -311,30 +299,30 @@
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      padding: 0 2px;
+      padding: 0;
     }
 
     .qty-arrows {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       flex-shrink: 0;
     }
 
     .qty-arrow-btn {
-      width: 32px;
+      width: 28px;
       height: 36px;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       background-color: var(--bg-page);
       color: var(--text-primary);
-      font-size: 12px;
+      font-size: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.15s, color 0.15s, transform 0.1s, opacity 0.15s;
       padding: 0;
+      transition: background-color 0.15s, transform 0.1s, opacity 0.15s;
     }
 
     .qty-arrow-btn:active {
@@ -349,7 +337,7 @@
       transform: none;
     }
 
-    /* Select Wrapper with subtle chevron */
+    /* Select Wrapper with Chevron */
     .select-wrap {
       position: relative;
       min-width: 0;
@@ -358,10 +346,10 @@
     .select-wrap::after {
       content: "";
       position: absolute;
-      right: 12px;
+      right: 10px;
       top: 50%;
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-right: 1.8px solid var(--text-muted);
       border-bottom: 1.8px solid var(--text-muted);
       transform: translateY(-65%) rotate(45deg);
@@ -369,48 +357,195 @@
     }
 
     .select-wrap .field-select {
-      padding-right: 28px;
+      padding-right: 24px;
       cursor: pointer;
     }
 
     /* History Autocomplete Dropdown */
-/* ... existing code ... -->
+    .autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 180px;
+      width: 100%;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 20px rgba(62, 60, 58, 0.1);
+      z-index: 80;
+      display: none;
+      overflow: hidden;
+    }
+
+    .autocomplete-dropdown.open {
+      display: block;
+    }
+
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--bg-page);
+      font-size: 14px;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:active,
+    .autocomplete-item:hover {
+      background-color: var(--bg-page);
+    }
+
+    .autocomplete-name {
+      color: var(--text-primary);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .autocomplete-price {
+      color: var(--text-muted);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* Row 2 Action Slot (Add / Edit Modes) */
+    .action-slot {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .btn {
+      height: 46px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s, transform 0.1s;
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      width: 100%;
+      background-color: var(--primary);
+      color: var(--primary-text);
+    }
+
+    .btn-primary:active {
+      background-color: var(--primary-active);
+    }
+
+    .btn-secondary {
+      flex: 1;
+      min-width: 0;
+      background-color: var(--secondary);
+      color: var(--secondary-text);
+      padding: 0 6px;
+      font-size: 14px;
+    }
+
+    .btn-secondary:active {
+      background-color: var(--secondary-active);
+    }
+
+    .btn-icon-danger {
+      width: 34px;
+      flex-shrink: 0;
+      padding: 0;
+      background-color: var(--danger);
+      color: var(--danger-text);
+    }
+
+    .btn-icon-danger:active {
+      background-color: var(--danger-active);
+    }
+
+    .btn-icon-neutral {
+      width: 34px;
+      flex-shrink: 0;
+      padding: 0;
+      background-color: var(--neutral);
+      color: var(--text-primary);
+      font-size: 15px;
+    }
+
+    .btn-icon-neutral:active {
+      background-color: var(--neutral-active);
+    }
+
+    .btn-neutral-full {
+      flex: 1;
+      background-color: var(--neutral);
+      color: var(--text-primary);
+    }
+
+    .btn-danger-full {
+      flex: 1;
+      background-color: var(--danger);
+      color: var(--danger-text);
+    }
+
     /* =========================================
-       Compact List Toolbar (4 Buttons)
+       Single Compact Toolbar Row
        ========================================= */
     .toolbar {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
       margin-bottom: 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    .toolbar-group {
+    .toolbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .toolbar-right {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      flex-shrink: 0;
     }
 
     .pill-btn {
-      height: 34px;
-      padding: 0 11px;
+      height: 32px;
+      padding: 0 9px;
       border-radius: 999px;
       border: 1px solid var(--border-input);
       background-color: var(--bg-card);
       color: var(--text-primary);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      transition: background-color 0.18s, border-color 0.18s, color 0.18s, opacity 0.18s;
       white-space: nowrap;
+      flex-shrink: 0;
+      transition: background-color 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s;
     }
 
     .pill-btn:active {
@@ -424,7 +559,7 @@
     }
 
     .pill-btn.danger-pill {
-      color: var(--danger-soft-text);
+      color: var(--danger-text);
       border-color: var(--danger);
       background-color: var(--danger-soft-bg);
     }
@@ -436,12 +571,12 @@
     }
 
     /* =========================================
-       Single-Row Shopping List Cards (一列顯示)
+       Single-Row Shopping List Cards (No Empty Box)
        ========================================= */
     .shopping-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
 
     .item-row {
@@ -449,13 +584,13 @@
       align-items: center;
       gap: 8px;
       padding: 8px 10px;
-      min-height: 48px;
+      min-height: 46px;
       background-color: var(--bg-card);
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-input);
+      border: 1px solid var(--border-card);
       box-shadow: var(--shadow-card);
       cursor: pointer;
-      transition: opacity 0.2s, border-color 0.2s, background-color 0.2s;
+      transition: opacity 0.18s, border-color 0.18s, background-color 0.18s;
     }
 
     .item-row.unchecked {
@@ -463,13 +598,85 @@
     }
 
     .item-row.editing-active {
-      border-color: var(--secondary);
+      border-color: #A4BFA9;
       background-color: #F4F8F4;
       opacity: 1;
     }
 
-    /* Checkbox */
-/* ... existing code ... -->
+    /* Morandi Checkbox */
+    .checkbox-btn {
+      width: 28px;
+      height: 28px;
+      margin: -2px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-visual {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1.8px solid #C8C2B8;
+      background-color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .checkbox-visual svg {
+      opacity: 0;
+      transform: scale(0.75);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .item-row.checked .checkbox-visual {
+      background-color: var(--checkbox-checked);
+      border-color: var(--checkbox-checked);
+    }
+
+    .item-row.checked .checkbox-visual svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Item Name & Discount Badge */
+    .item-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow: hidden;
+    }
+
+    .item-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background-color: var(--bg-page);
+      color: var(--text-muted);
+      border: 1px solid var(--border-input);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* Compact Inline Stepper */
     .row-stepper {
       display: flex;
@@ -477,7 +684,7 @@
       height: 30px;
       background-color: var(--bg-page);
       border: 1px solid var(--border-input);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -515,30 +722,19 @@
       color: var(--text-primary);
     }
 
-    /* Right-aligned Subtotal */
+    /* Far Right Subtotal */
     .item-subtotal {
-      min-width: 56px;
+      min-width: 54px;
       text-align: right;
-      font-size: 15.5px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-primary);
       font-variant-numeric: tabular-nums;
       flex-shrink: 0;
     }
 
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 36px 16px;
-      border: 1px dashed var(--border-input);
-      border-radius: var(--radius-lg);
-      color: var(--text-muted);
-      font-size: 14px;
-      background-color: rgba(255, 255, 255, 0.55);
-    }
-
     /* =========================================
-       Sticky Bottom Summary Bar
+       Sticky Bottom Summary Footer (Solid, No Blur)
        ========================================= */
     .sticky-footer {
       position: fixed;
@@ -546,10 +742,10 @@
       left: 0;
       right: 0;
       background-color: var(--bg-card);
-      border-top: 1px solid var(--border-card);
+      border-top: 1px solid #E8E3DC;
       box-shadow: var(--shadow-sticky);
       z-index: 50;
-      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
     }
 
     .sticky-inner {
@@ -558,30 +754,32 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
     }
 
     .footer-count {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-muted);
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
+    /* Inline Order Discount Input with Dedicated × Clear Button */
     .footer-deduct {
       display: inline-flex;
       align-items: center;
       gap: 4px;
       height: 36px;
-      padding: 0 10px;
+      padding: 0 5px 0 9px;
       border-radius: 999px;
       border: 1px solid var(--border-input);
       background-color: var(--bg-page);
       color: var(--text-primary);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       white-space: nowrap;
-      transition: border-color 0.2s, background-color 0.2s;
+      transition: border-color 0.18s, background-color 0.18s;
     }
 
     .footer-deduct:focus-within {
@@ -591,21 +789,22 @@
 
     .footer-deduct.active {
       background-color: var(--danger-soft-bg);
-      border-color: var(--danger);
-      color: var(--danger-soft-text);
+      border-color: var(--danger-border);
+      color: var(--danger-text);
     }
 
     .footer-deduct-input {
-      width: 52px;
+      width: 44px;
       border: none;
       background: transparent;
       color: inherit;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
       font-family: inherit;
       font-variant-numeric: tabular-nums;
       outline: none;
       padding: 0;
+      text-align: right;
     }
 
     .footer-deduct-input::placeholder {
@@ -613,21 +812,49 @@
       font-weight: 500;
     }
 
+    .footer-deduct-clear {
+      width: 24px;
+      height: 24px;
+      border: none;
+      border-radius: 50%;
+      background-color: rgba(138, 133, 126, 0.14);
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      transition: background-color 0.15s, color 0.15s, opacity 0.15s;
+    }
+
+    .footer-deduct.active .footer-deduct-clear {
+      background-color: rgba(138, 78, 78, 0.15);
+      color: var(--danger-text);
+    }
+
+    .footer-deduct-clear:active {
+      transform: scale(0.9);
+    }
+
     .footer-total {
       display: flex;
       align-items: baseline;
       gap: 4px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .footer-total-label {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       color: var(--text-muted);
     }
 
     .footer-total-val {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 800;
       color: var(--text-primary);
       font-variant-numeric: tabular-nums;
@@ -635,16 +862,16 @@
     }
 
     .footer-total-val.over-budget {
-      color: var(--danger-soft-text);
+      color: var(--danger-text);
     }
 
     /* =========================================
-       Custom Soft Modals & Toast
+       Custom Soft Modals & Toast (No alert/confirm)
        ========================================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background-color: rgba(79, 78, 75, 0.28);
+      background-color: rgba(62, 60, 58, 0.3);
       display: none;
       align-items: center;
       justify-content: center;
@@ -654,17 +881,17 @@
 
     .modal-backdrop.open {
       display: flex;
-      animation: fadeIn 0.16s ease;
+      animation: fadeIn 0.15s ease;
     }
 
     .modal-card {
       width: 100%;
-      max-width: 360px;
+      max-width: 350px;
       background-color: var(--bg-card);
       border-radius: var(--radius-lg);
       padding: 18px;
-      box-shadow: 0 14px 36px rgba(72, 72, 70, 0.14);
-      animation: scaleUp 0.18s ease;
+      box-shadow: 0 14px 36px rgba(62, 60, 58, 0.16);
+      animation: scaleUp 0.16s ease;
     }
 
     .modal-title {
@@ -717,11 +944,11 @@
       top: calc(14px + env(safe-area-inset-top));
       left: 50%;
       transform: translateX(-50%) translateY(-16px);
-      background-color: rgba(72, 72, 70, 0.92);
+      background-color: rgba(62, 60, 58, 0.92);
       color: #FFFFFF;
       padding: 8px 16px;
       border-radius: 999px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
@@ -745,12 +972,19 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    @media (max-width: 350px) {
+    @media (max-width: 360px) {
+      .qty-arrow-btn {
+        width: 24px;
+      }
       .footer-total-val {
-        font-size: 19px;
+        font-size: 18px;
       }
       .footer-deduct-input {
-        width: 42px;
+        width: 38px;
+      }
+      .pill-btn {
+        padding: 0 7px;
+        font-size: 12px;
       }
     }
   </style>
@@ -762,7 +996,7 @@
       <h1 class="brand-title">購物車</h1>
       <button type="button" id="budgetBarBtn" class="budget-bar" aria-label="設定預算">
         <div class="budget-bar-top">
-          <span id="budgetLabelText">設定預算</span>
+          <span id="budgetLabelText" class="budget-bar-label">設定預算</span>
           <span id="budgetRightText" class="budget-bar-muted"></span>
         </div>
         <div class="budget-track">
@@ -773,11 +1007,11 @@
   </header>
 
   <div class="app-container">
-    <!-- Frameless Input Form (No Outer Frame, No Labels, 48px Controls) -->
+    <!-- Compact 2-Row Frameless Input Area -->
     <section id="inputPanel" class="input-panel" aria-label="輸入區">
       <form id="itemForm" novalidate>
-        <!-- Row 1: Item Name with History Autocomplete -->
-        <div class="form-row">
+        <!-- Row 1: 品項名稱 | 單價 | 數量 -->
+        <div class="form-row-1">
           <div class="name-field-wrap">
             <input
               type="text"
@@ -787,29 +1021,18 @@
               autocomplete="off"
               enterkeyhint="next"
             >
-            <button type="button" id="clearNameBtn" class="clear-name-btn" aria-label="清除品項名稱">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
             <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
           </div>
-        </div>
 
-        <!-- Row 2: Unit Price + Quantity Control (Arrows on Right) -->
-        <div class="form-row-2col">
-          <div>
-            <input
-              type="text"
-              inputmode="decimal"
-              id="itemPriceInput"
-              class="field-input field-numeric"
-              placeholder="單價"
-              autocomplete="off"
-              enterkeyhint="done"
-            >
-          </div>
+          <input
+            type="text"
+            inputmode="decimal"
+            id="itemPriceInput"
+            class="field-input field-numeric"
+            placeholder="單價"
+            autocomplete="off"
+            enterkeyhint="done"
+          >
 
           <div class="qty-box">
             <select id="itemQtySelect" class="qty-select" aria-label="數量"></select>
@@ -820,8 +1043,8 @@
           </div>
         </div>
 
-        <!-- Row 3: Discount Dropdown ("無折扣") + Fixed Dollar Discount -->
-        <div class="form-row-2col">
+        <!-- Row 2: 折扣 | 折價(元) | ＋加入 (or Edit Controls) -->
+        <div class="form-row-2">
           <div class="select-wrap">
             <select id="itemDiscountSelect" class="field-select" aria-label="折扣">
               <option value="1">無折扣</option>
@@ -829,61 +1052,65 @@
               <option value="0.9">9折</option>
               <option value="0.85">85折</option>
               <option value="0.8">8折</option>
+              <option value="0.75">75折</option>
               <option value="0.7">7折</option>
               <option value="bogo">買一送一</option>
             </select>
           </div>
 
-          <div>
-            <input
-              type="text"
-              inputmode="decimal"
-              id="itemDollarOffInput"
-              class="field-input field-numeric"
-              placeholder="折價(元)"
-              autocomplete="off"
-              enterkeyhint="done"
-            >
+          <input
+            type="text"
+            inputmode="decimal"
+            id="itemDollarOffInput"
+            class="field-input field-numeric"
+            placeholder="折價(元)"
+            autocomplete="off"
+            enterkeyhint="done"
+          >
+
+          <!-- Add Mode Slot -->
+          <div id="addActions" class="action-slot">
+            <button type="submit" class="btn btn-primary">＋加入</button>
           </div>
-        </div>
 
-        <!-- Row 4: Add Mode Button -->
-        <div id="addActions" class="action-row">
-          <button type="submit" class="btn btn-primary">＋加入</button>
-        </div>
-
-        <!-- Row 4: Edit Mode Buttons -->
-        <div id="editActions" class="action-row" style="display: none;">
-          <button type="submit" class="btn btn-secondary">更新</button>
-          <button type="button" id="deleteEditBtn" class="btn btn-danger">刪除</button>
-          <button type="button" id="cancelEditBtn" class="btn btn-neutral">取消</button>
+          <!-- Edit Mode Slot (Keeps Compact 2-Row Layout) -->
+          <div id="editActions" class="action-slot" style="display: none;">
+            <button type="submit" class="btn btn-secondary">更新</button>
+            <button type="button" id="deleteEditBtn" class="btn btn-icon-danger" aria-label="刪除品項" title="刪除">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+              </svg>
+            </button>
+            <button type="button" id="cancelEditBtn" class="btn btn-icon-neutral" aria-label="取消編輯" title="取消">✕</button>
+          </div>
         </div>
       </form>
     </section>
 
-    <!-- Compact List Toolbar (4 Buttons) -->
+    <!-- Single Compact Toolbar Row -->
     <section class="toolbar" aria-label="清單工具列">
-      <div class="toolbar-group">
-        <button type="button" id="sortToggleBtn" class="pill-btn" aria-pressed="false">依勾選排序</button>
+      <button type="button" id="sortToggleBtn" class="pill-btn" aria-pressed="false">依勾選排序</button>
+      <div class="toolbar-right">
         <button type="button" id="uncheckAllBtn" class="pill-btn" disabled>取消勾選</button>
-      </div>
-      <div class="toolbar-group">
         <button type="button" id="clearCheckedBtn" class="pill-btn" disabled>刪除已勾選</button>
         <button type="button" id="clearAllBtn" class="pill-btn danger-pill" disabled>全部刪除</button>
       </div>
     </section>
 
-    <!-- Single-Row Shopping List -->
+    <!-- Single-Row Shopping List (Empty when no items) -->
     <main id="shoppingList" class="shopping-list" aria-live="polite"></main>
   </div>
 
-  <!-- Sticky Bottom Summary Bar -->
+  <!-- Sticky Bottom Summary Footer -->
   <footer class="sticky-footer" aria-label="總計列">
     <div class="sticky-inner">
       <span id="footerCountText" class="footer-count">已選 0 項</span>
 
-      <label id="footerDeductWrap" class="footer-deduct" for="flatDiscountInput">
-        <span>滿額折抵</span>
+      <div id="footerDeductWrap" class="footer-deduct">
+        <label for="flatDiscountInput">滿額折抵</label>
         <input
           type="text"
           inputmode="decimal"
@@ -893,7 +1120,14 @@
           autocomplete="off"
           aria-label="滿額折抵金額"
         >
-      </label>
+        <button
+          type="button"
+          id="clearFlatDiscountBtn"
+          class="footer-deduct-clear"
+          aria-label="清除滿額折抵"
+          title="清除滿額折抵"
+        >×</button>
+      </div>
 
       <div class="footer-total">
         <span class="footer-total-label">總計</span>
@@ -923,25 +1157,25 @@
         <button type="button" class="preset-chip" data-budget-preset="0">不設限</button>
       </div>
       <div class="modal-actions">
-        <button type="button" id="budgetCancelBtn" class="btn btn-neutral">取消</button>
-        <button type="button" id="budgetSaveBtn" class="btn btn-primary">儲存</button>
+        <button type="button" id="budgetCancelBtn" class="btn btn-neutral-full">取消</button>
+        <button type="button" id="budgetSaveBtn" class="btn btn-primary" style="flex: 1;">儲存</button>
       </div>
     </div>
   </div>
 
-  <!-- Custom Confirmation Modal -->
+  <!-- Soft Confirmation Modal -->
   <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
     <div class="modal-card">
-      <h2 id="confirmModalTitle" class="modal-title">確認清除</h2>
+      <h2 id="confirmModalTitle" class="modal-title">確認刪除</h2>
       <p id="confirmModalDesc" class="modal-desc"></p>
       <div class="modal-actions">
-        <button type="button" id="confirmCancelBtn" class="btn btn-neutral">取消</button>
-        <button type="button" id="confirmOkBtn" class="btn btn-danger">確認</button>
+        <button type="button" id="confirmCancelBtn" class="btn btn-neutral-full">取消</button>
+        <button type="button" id="confirmOkBtn" class="btn btn-danger-full">確認</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
+  <!-- Toast Notification -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
@@ -978,7 +1212,7 @@
       let toastTimer = null;
 
       /* =========================================
-         DOM Elements
+         DOM References
          ========================================= */
       const el = {
         budgetBarBtn: document.getElementById('budgetBarBtn'),
@@ -989,7 +1223,6 @@
         inputPanel: document.getElementById('inputPanel'),
         itemForm: document.getElementById('itemForm'),
         itemNameInput: document.getElementById('itemNameInput'),
-        clearNameBtn: document.getElementById('clearNameBtn'),
         autocompleteDropdown: document.getElementById('autocompleteDropdown'),
         itemPriceInput: document.getElementById('itemPriceInput'),
         itemQtySelect: document.getElementById('itemQtySelect'),
@@ -1012,6 +1245,7 @@
         footerCountText: document.getElementById('footerCountText'),
         footerDeductWrap: document.getElementById('footerDeductWrap'),
         flatDiscountInput: document.getElementById('flatDiscountInput'),
+        clearFlatDiscountBtn: document.getElementById('clearFlatDiscountBtn'),
         grandTotalText: document.getElementById('grandTotalText'),
 
         budgetModal: document.getElementById('budgetModal'),
@@ -1050,7 +1284,7 @@
       }
 
       /**
-       * Sanitizes numeric inputs (converts full-width digits, keeps up to 2 decimal places).
+       * Sanitizes numeric inputs (converts full-width digits, keeps up to 2 decimals).
        */
       function sanitizeDecimalInput(raw) {
         let str = String(raw)
@@ -1078,7 +1312,7 @@
       }
 
       /**
-       * Computes item subtotal applying percentage/BOGO discount first, then fixed dollarOff.
+       * Calculates item subtotal: percentage/BOGO discount first, then fixed dollarOff (min 0).
        */
       function calcItemSubtotal(item) {
         const price = Number(item.price) || 0;
@@ -1088,15 +1322,13 @@
 
         let discountedBase;
         if (disc === 'bogo' || disc === '0.5') {
-          // Buy 1 Get 1 Free: qty=1 treats as half price; qty>=2 pays for ceil(qty/2)
-          discountedBase = qty === 1 ? price * 0.5 : Math.ceil(qty / 2) * price;
+          discountedBase = Math.ceil(qty / 2) * price;
         } else {
           const factor = parseFloat(disc);
           discountedBase = price * qty * (isNaN(factor) ? 1 : factor);
         }
 
-        const finalAmount = Math.max(0, Math.round((discountedBase - dollarOff) * 100) / 100);
-        return finalAmount;
+        return Math.max(0, Math.round((discountedBase - dollarOff) * 100) / 100);
       }
 
       function generateId() {
@@ -1119,6 +1351,38 @@
         toastTimer = setTimeout(() => {
           el.toast.classList.remove('show');
         }, 1800);
+      }
+
+      /**
+       * Reliably auto-selects all text on focus for both iOS Safari and desktop browsers.
+       */
+      function attachAutoSelect(inputEl) {
+        let justFocused = false;
+
+        inputEl.addEventListener('focus', () => {
+          justFocused = true;
+          setTimeout(() => {
+            if (document.activeElement === inputEl && inputEl.value.length > 0) {
+              inputEl.select();
+              try {
+                inputEl.setSelectionRange(0, inputEl.value.length);
+              } catch (e) {
+                // Ignore if input type does not support setSelectionRange
+              }
+            }
+          }, 10);
+        });
+
+        inputEl.addEventListener('mouseup', (e) => {
+          if (justFocused) {
+            e.preventDefault();
+            justFocused = false;
+          }
+        });
+
+        inputEl.addEventListener('blur', () => {
+          justFocused = false;
+        });
       }
 
       /* =========================================
@@ -1144,7 +1408,6 @@
               : [];
             state.budget = Number(parsed.budget) > 0 ? Number(parsed.budget) : 0;
             state.flatDiscount = Number(parsed.flatDiscount) > 0 ? Number(parsed.flatDiscount) : 0;
-            // Support both legacy sinkUnchecked and sortByChecked keys
             state.sortByChecked = Boolean(
               parsed.sortByChecked !== undefined ? parsed.sortByChecked : parsed.sinkUnchecked
             );
@@ -1215,10 +1478,6 @@
         el.autocompleteDropdown.classList.remove('open');
       }
 
-      function updateClearNameBtn() {
-        el.clearNameBtn.classList.toggle('visible', el.itemNameInput.value.length > 0);
-      }
-
       /* =========================================
          Form Add / Edit Mode
          ========================================= */
@@ -1227,7 +1486,6 @@
         if (!item) return;
 
         editingId = item.id;
-        el.inputPanel.classList.add('editing');
         el.addActions.style.display = 'none';
         el.editActions.style.display = 'flex';
 
@@ -1240,16 +1498,13 @@
           : '1';
         el.itemDollarOffInput.value = item.dollarOff > 0 ? String(item.dollarOff) : '';
 
-        updateClearNameBtn();
         closeAutocomplete();
         renderAll();
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       function exitEditMode() {
         editingId = null;
-        el.inputPanel.classList.remove('editing');
         el.addActions.style.display = 'flex';
         el.editActions.style.display = 'none';
 
@@ -1260,7 +1515,6 @@
         el.itemDiscountSelect.value = '1';
         el.itemDollarOffInput.value = '';
 
-        updateClearNameBtn();
         closeAutocomplete();
         renderAll();
       }
@@ -1345,7 +1599,7 @@
         const subtotalSum = checkedItems.reduce((sum, item) => sum + calcItemSubtotal(item), 0);
         const netTotal = Math.max(0, Math.round((subtotalSum - state.flatDiscount) * 100) / 100);
 
-        // Sticky Footer
+        // Sticky Bottom Footer
         el.footerCountText.textContent = `已選 ${checkedItems.length} 項`;
         el.grandTotalText.textContent = `$${formatMoney(netTotal)}`;
 
@@ -1354,7 +1608,7 @@
         }
         el.footerDeductWrap.classList.toggle('active', state.flatDiscount > 0);
 
-        // Compact Top Budget Bar
+        // Top Budget Pill & Progress Bar
         el.budgetFill.classList.remove('warning', 'over');
         el.budgetRightText.classList.remove('budget-bar-over');
         el.grandTotalText.classList.remove('over-budget');
@@ -1363,12 +1617,12 @@
           const pct = Math.round((netTotal / state.budget) * 100);
           const diff = Math.round((state.budget - netTotal) * 100) / 100;
 
-          el.budgetLabelText.textContent = `預算 $${formatMoney(state.budget)}`;
+          el.budgetLabelText.textContent = `預算 $${formatMoney(netTotal)} / $${formatMoney(state.budget)}`;
           el.budgetFill.style.width = `${Math.min(pct, 100)}%`;
 
           if (netTotal > state.budget) {
             el.budgetFill.classList.add('over');
-            el.budgetRightText.textContent = `超支 $${formatMoney(Math.abs(diff))}`;
+            el.budgetRightText.textContent = `超$${formatMoney(Math.abs(diff))}`;
             el.budgetRightText.classList.add('budget-bar-over');
             el.grandTotalText.classList.add('over-budget');
           } else {
@@ -1385,8 +1639,9 @@
       }
 
       function renderList() {
+        // Leave list container completely empty when there are no items
         if (state.items.length === 0) {
-          el.shoppingList.innerHTML = `<div class="empty-state">購物車目前是空的，請由上方新增品項</div>`;
+          el.shoppingList.innerHTML = '';
           return;
         }
 
@@ -1403,7 +1658,7 @@
           const discLabel = DISCOUNT_LABELS[String(item.discount)] || '';
           const badges = [];
           if (discLabel) badges.push(discLabel);
-          if (item.dollarOff > 0) badges.push(`-${formatMoney(item.dollarOff)}`);
+          if (item.dollarOff > 0) badges.push(`-$${formatMoney(item.dollarOff)}`);
 
           const rowClass = [
             'item-row',
@@ -1488,27 +1743,24 @@
       function bindEvents() {
         el.itemForm.addEventListener('submit', handleFormSubmit);
 
-        // Item Name & History Autocomplete
-        el.itemNameInput.addEventListener('input', () => {
-          updateClearNameBtn();
-          renderAutocomplete();
-        });
+        // Attach Auto-Select All on Focus for ALL Inputs
+        [
+          el.itemNameInput,
+          el.itemPriceInput,
+          el.itemDollarOffInput,
+          el.flatDiscountInput,
+          el.budgetModalInput
+        ].forEach(attachAutoSelect);
 
+        // Item Name Autocomplete
+        el.itemNameInput.addEventListener('input', renderAutocomplete);
         el.itemNameInput.addEventListener('focus', renderAutocomplete);
-
-        el.clearNameBtn.addEventListener('click', () => {
-          el.itemNameInput.value = '';
-          updateClearNameBtn();
-          el.itemNameInput.focus();
-          renderAutocomplete();
-        });
 
         el.autocompleteDropdown.addEventListener('click', (e) => {
           const opt = e.target.closest('.autocomplete-item');
           if (!opt) return;
           el.itemNameInput.value = opt.dataset.name || '';
           el.itemPriceInput.value = opt.dataset.price || '';
-          updateClearNameBtn();
           closeAutocomplete();
         });
 
@@ -1526,7 +1778,7 @@
           });
         });
 
-        // Quantity Box Select + Right-side ◀ ▶ Arrows
+        // Quantity Control Select + ◀ ▶ Arrows
         el.itemQtySelect.addEventListener('change', syncQtyArrowState);
 
         el.qtyDecBtn.addEventListener('click', () => {
@@ -1612,7 +1864,7 @@
           enterEditMode(id);
         });
 
-        // Toolbar Controls
+        // Toolbar Actions
         el.sortToggleBtn.addEventListener('click', () => {
           state.sortByChecked = !state.sortByChecked;
           saveState();
@@ -1622,9 +1874,7 @@
         el.uncheckAllBtn.addEventListener('click', () => {
           const checkedCount = state.items.filter(i => i.checked).length;
           if (checkedCount === 0) return;
-          state.items.forEach(item => {
-            item.checked = false;
-          });
+          state.items.forEach(item => { item.checked = false; });
           saveState();
           renderAll();
           showToast('已取消全部勾選');
@@ -1666,7 +1916,7 @@
           );
         });
 
-        // Sticky Footer Flat Discount
+        // Sticky Footer Order Discount & Dedicated × Clear Button
         el.flatDiscountInput.addEventListener('input', (e) => {
           const clean = sanitizeDecimalInput(e.target.value);
           if (e.target.value !== clean) e.target.value = clean;
@@ -1678,6 +1928,13 @@
 
         el.flatDiscountInput.addEventListener('blur', () => {
           el.flatDiscountInput.value = state.flatDiscount > 0 ? String(state.flatDiscount) : '';
+        });
+
+        el.clearFlatDiscountBtn.addEventListener('click', () => {
+          state.flatDiscount = 0;
+          el.flatDiscountInput.value = '';
+          saveState();
+          renderSummaryAndBudget();
         });
 
         // Budget Modal
@@ -1710,7 +1967,7 @@
           }
         });
 
-        // Confirm Modal
+        // Soft Confirm Modal
         el.confirmCancelBtn.addEventListener('click', closeConfirmModal);
         el.confirmModal.addEventListener('click', (e) => {
           if (e.target === el.confirmModal) closeConfirmModal();
@@ -1724,7 +1981,7 @@
       }
 
       /* =========================================
-         Init
+         Initialize
          ========================================= */
       function init() {
         populateQtySelect();
