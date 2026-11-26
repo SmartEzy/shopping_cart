@@ -18,54 +18,56 @@
 
   <style>
     /* =========================================
-       Original Soft Morandi Color Tokens
+       Soft Light Morandi Color Tokens
        ========================================= */
     :root {
       --bg-page: #F7F5F2;
       --bg-card: #FFFFFF;
       --bg-input: #FFFFFF;
-      --border-header: #EAE5DD;
-      --border-card: #EAE5DD;
-      --border-input: #E3DDD5;
-      --border-focus: #A6B8C7;
+      --border-header: #EAE6DF;
+      --border-card: #E6E2DC;
+      --border-input: #E6E2DC;
+      --border-focus: #A8BAC9;
 
-      /* Primary Action: Soft Dusty Morandi Blue */
+      /* Primary Action & Checked Checkbox: Soft Morandi Slate Blue */
       --primary: #C8D6E2;
-      --primary-active: #B9C9D7;
-      --primary-text: #354554;
+      --primary-active: #B8C9D8;
+      --primary-text: #3A4B59;
 
-      /* Edit Mode Update: Soft Sage Green */
-      --secondary: #CAD9CE;
-      --secondary-active: #BACBBF;
-      --secondary-text: #35483A;
+      /* Edit Mode Update: Soft Morandi Sage Green */
+      --secondary: #C5D6C8;
+      --secondary-active: #B5C9B9;
+      --secondary-text: #394D3E;
 
       /* Neutral Controls */
       --neutral: #ECE8E2;
       --neutral-active: #E0DBD3;
 
       /* Delete / Over-Budget: Soft Dusty Rose */
-      --danger: #E6D1D1;
+      --danger: #E8CECE;
       --danger-border: #C48F8F;
-      --danger-active: #DABBBB;
-      --danger-text: #8A4E4E;
+      --danger-active: #DCBDBD;
+      --danger-text: #7A4B4B;
       --danger-soft-bg: #FAF2F2;
 
       /* Checkbox & Progress Bar */
-      --checkbox-checked: #8FA4B6;
-      --prog-track: #ECE8E2;
-      --prog-normal: #9EB3C4;
-      --prog-warning: #DFC8A2;
+      --checkbox-checked: #C8D6E2;
+      --checkbox-checked-border: #B2C3D2;
+      --checkbox-icon: #3A4B59;
+      --prog-track: #EAE6DF;
+      --prog-normal: #AFC4B4;
+      --prog-warning: #DFC498;
       --prog-over: #C48F8F;
 
       /* Typography */
-      --text-primary: #3E3C3A;
-      --text-muted: #8A857E;
+      --text-primary: #4A4A48;
+      --text-muted: #8C8881;
 
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --shadow-card: 0 1px 3px rgba(62, 60, 58, 0.04);
-      --shadow-sticky: 0 -3px 12px rgba(62, 60, 58, 0.05);
+      --shadow-card: 0 1px 2px rgba(74, 74, 72, 0.04);
+      --shadow-sticky: 0 -2px 10px rgba(74, 74, 72, 0.04);
       --font-sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Inter", sans-serif;
     }
 
@@ -204,7 +206,7 @@
     }
 
     /* =========================================
-       Compact 2-Row Frameless Input Area
+       Compact 2-Row Frameless Input Area (3 Equal Columns)
        ========================================= */
     .input-panel {
       background: transparent;
@@ -215,15 +217,15 @@
 
     .form-row-1 {
       display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr) minmax(0, 1.15fr);
-      gap: 6px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
       margin-bottom: 8px;
     }
 
     .form-row-2 {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 1.2fr);
-      gap: 6px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
     }
 
     .name-field-wrap {
@@ -231,11 +233,11 @@
       min-width: 0;
     }
 
-    /* Unified 46px Form Controls */
+    /* Unified 48px Form Controls */
     .field-input,
     .field-select {
       width: 100%;
-      height: 46px;
+      height: 48px;
       padding: 0 10px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-input);
@@ -258,7 +260,7 @@
     .field-select:focus {
       background-color: #FFFFFF;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(166, 184, 199, 0.22);
+      box-shadow: 0 0 0 2px rgba(168, 186, 201, 0.24);
     }
 
     .field-numeric {
@@ -267,7 +269,7 @@
 
     /* Quantity Unified Control: Select Left + ◀ ▶ Arrows Side-by-Side Right */
     .qty-box {
-      height: 46px;
+      height: 48px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-input);
       background-color: var(--bg-input);
@@ -277,16 +279,17 @@
       padding: 0 4px 0 8px;
       transition: border-color 0.18s, box-shadow 0.18s;
       min-width: 0;
+      overflow: hidden;
     }
 
     .qty-box:focus-within {
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(166, 184, 199, 0.22);
+      box-shadow: 0 0 0 2px rgba(168, 186, 201, 0.24);
     }
 
     .qty-select {
       flex: 1;
-      min-width: 26px;
+      min-width: 24px;
       height: 100%;
       border: none;
       background: transparent;
@@ -310,7 +313,7 @@
     }
 
     .qty-arrow-btn {
-      width: 28px;
+      width: 26px;
       height: 36px;
       border: none;
       border-radius: var(--radius-sm);
@@ -420,12 +423,12 @@
     .action-slot {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       min-width: 0;
     }
 
     .btn {
-      height: 46px;
+      height: 48px;
       border: none;
       border-radius: var(--radius-md);
       font-size: 15px;
@@ -450,6 +453,7 @@
       color: var(--primary-text);
     }
 
+    .btn-primary:hover,
     .btn-primary:active {
       background-color: var(--primary-active);
     }
@@ -463,24 +467,13 @@
       font-size: 14px;
     }
 
+    .btn-secondary:hover,
     .btn-secondary:active {
       background-color: var(--secondary-active);
     }
 
-    .btn-icon-danger {
-      width: 34px;
-      flex-shrink: 0;
-      padding: 0;
-      background-color: var(--danger);
-      color: var(--danger-text);
-    }
-
-    .btn-icon-danger:active {
-      background-color: var(--danger-active);
-    }
-
     .btn-icon-neutral {
-      width: 34px;
+      width: 36px;
       flex-shrink: 0;
       padding: 0;
       background-color: var(--neutral);
@@ -505,7 +498,7 @@
     }
 
     /* =========================================
-       Single Compact Toolbar Row
+       Single Compact Toolbar Row (Aligned Master Checkbox)
        ========================================= */
     .toolbar {
       display: flex;
@@ -513,6 +506,7 @@
       justify-content: space-between;
       gap: 6px;
       margin-bottom: 10px;
+      padding-left: 11px;
       flex-wrap: nowrap;
       overflow-x: auto;
       scrollbar-width: none;
@@ -520,6 +514,51 @@
 
     .toolbar::-webkit-scrollbar {
       display: none;
+    }
+
+    .master-select-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 2px 4px 2px 0;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+
+    .master-select-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .master-select-btn .checkbox-visual .icon-check,
+    .master-select-btn .checkbox-visual .icon-dash {
+      display: none;
+    }
+
+    .master-select-btn.is-checked .checkbox-visual,
+    .master-select-btn.is-indeterminate .checkbox-visual {
+      background-color: var(--checkbox-checked);
+      border-color: var(--checkbox-checked-border);
+    }
+
+    .master-select-btn.is-checked .checkbox-visual .icon-check {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .master-select-btn.is-indeterminate .checkbox-visual .icon-dash {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
     }
 
     .toolbar-right {
@@ -594,11 +633,11 @@
     }
 
     .item-row.unchecked {
-      opacity: 0.52;
+      opacity: 0.55;
     }
 
     .item-row.editing-active {
-      border-color: #A4BFA9;
+      border-color: #A8BEA9;
       background-color: #F4F8F4;
       opacity: 1;
     }
@@ -607,7 +646,7 @@
     .checkbox-btn {
       width: 28px;
       height: 28px;
-      margin: -2px;
+      margin: -3px;
       padding: 0;
       border: none;
       background: transparent;
@@ -628,6 +667,7 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
     }
 
     .checkbox-visual svg {
@@ -638,7 +678,7 @@
 
     .item-row.checked .checkbox-visual {
       background-color: var(--checkbox-checked);
-      border-color: var(--checkbox-checked);
+      border-color: var(--checkbox-checked-border);
     }
 
     .item-row.checked .checkbox-visual svg {
@@ -734,15 +774,15 @@
     }
 
     /* =========================================
-       Sticky Bottom Summary Footer (Solid, No Blur)
+       Sticky Bottom Summary Footer (Solid #F7F5F2, No Blur)
        ========================================= */
     .sticky-footer {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: var(--bg-card);
-      border-top: 1px solid #E8E3DC;
+      background-color: var(--bg-page);
+      border-top: 1px solid var(--border-header);
       box-shadow: var(--shadow-sticky);
       z-index: 50;
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
@@ -774,7 +814,7 @@
       padding: 0 5px 0 9px;
       border-radius: 999px;
       border: 1px solid var(--border-input);
-      background-color: var(--bg-page);
+      background-color: var(--bg-card);
       color: var(--text-primary);
       font-size: 12.5px;
       font-weight: 600;
@@ -974,7 +1014,7 @@
 
     @media (max-width: 360px) {
       .qty-arrow-btn {
-        width: 24px;
+        width: 22px;
       }
       .footer-total-val {
         font-size: 18px;
@@ -1054,6 +1094,8 @@
               <option value="0.8">8折</option>
               <option value="0.75">75折</option>
               <option value="0.7">7折</option>
+              <option value="0.6">6折</option>
+              <option value="0.5">5折</option>
               <option value="bogo">買一送一</option>
             </select>
           </div>
@@ -1073,17 +1115,9 @@
             <button type="submit" class="btn btn-primary">＋加入</button>
           </div>
 
-          <!-- Edit Mode Slot (Keeps Compact 2-Row Layout) -->
+          <!-- Edit Mode Slot (Compact Flex Pair: 更新 + ✕) -->
           <div id="editActions" class="action-slot" style="display: none;">
             <button type="submit" class="btn btn-secondary">更新</button>
-            <button type="button" id="deleteEditBtn" class="btn btn-icon-danger" aria-label="刪除品項" title="刪除">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                <path d="M10 11v6"></path>
-                <path d="M14 11v6"></path>
-              </svg>
-            </button>
             <button type="button" id="cancelEditBtn" class="btn btn-icon-neutral" aria-label="取消編輯" title="取消">✕</button>
           </div>
         </div>
@@ -1092,9 +1126,20 @@
 
     <!-- Single Compact Toolbar Row -->
     <section class="toolbar" aria-label="清單工具列">
-      <button type="button" id="sortToggleBtn" class="pill-btn" aria-pressed="false">依勾選排序</button>
+      <button type="button" id="masterSelectBtn" class="master-select-btn" aria-label="全選或全不選" disabled>
+        <span class="checkbox-visual">
+          <svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--checkbox-icon)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <svg class="icon-dash" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--checkbox-icon)" stroke-width="3.2" stroke-linecap="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </span>
+        <span id="masterSelectLabel">全選</span>
+      </button>
+
       <div class="toolbar-right">
-        <button type="button" id="uncheckAllBtn" class="pill-btn" disabled>取消勾選</button>
+        <button type="button" id="sortToggleBtn" class="pill-btn" aria-pressed="false">排序(依勾選)</button>
         <button type="button" id="clearCheckedBtn" class="pill-btn" disabled>刪除已勾選</button>
         <button type="button" id="clearAllBtn" class="pill-btn danger-pill" disabled>全部刪除</button>
       </div>
@@ -1195,8 +1240,9 @@
         '0.8': '8折',
         '0.75': '75折',
         '0.7': '7折',
-        'bogo': '買一送一',
-        '0.5': '買一送一'
+        '0.6': '6折',
+        '0.5': '5折',
+        'bogo': '買一送一'
       };
 
       let state = {
@@ -1234,10 +1280,10 @@
         addActions: document.getElementById('addActions'),
         editActions: document.getElementById('editActions'),
         cancelEditBtn: document.getElementById('cancelEditBtn'),
-        deleteEditBtn: document.getElementById('deleteEditBtn'),
 
+        masterSelectBtn: document.getElementById('masterSelectBtn'),
+        masterSelectLabel: document.getElementById('masterSelectLabel'),
         sortToggleBtn: document.getElementById('sortToggleBtn'),
-        uncheckAllBtn: document.getElementById('uncheckAllBtn'),
         clearCheckedBtn: document.getElementById('clearCheckedBtn'),
         clearAllBtn: document.getElementById('clearAllBtn'),
         shoppingList: document.getElementById('shoppingList'),
@@ -1312,7 +1358,7 @@
       }
 
       /**
-       * Calculates item subtotal: percentage/BOGO discount first, then fixed dollarOff (min 0).
+       * Calculates item subtotal: percentage/BOGO discount first, then fixed dollarOff (min 0), rounded to integer.
        */
       function calcItemSubtotal(item) {
         const price = Number(item.price) || 0;
@@ -1321,14 +1367,14 @@
         const disc = String(item.discount || '1');
 
         let discountedBase;
-        if (disc === 'bogo' || disc === '0.5') {
+        if (disc === 'bogo') {
           discountedBase = Math.ceil(qty / 2) * price;
         } else {
           const factor = parseFloat(disc);
           discountedBase = price * qty * (isNaN(factor) ? 1 : factor);
         }
 
-        return Math.max(0, Math.round((discountedBase - dollarOff) * 100) / 100);
+        return Math.max(0, Math.round(discountedBase - dollarOff));
       }
 
       function generateId() {
@@ -1400,7 +1446,9 @@
                   name: String(it.name || ''),
                   price: Number(it.price) || 0,
                   qty: Math.min(99, Math.max(1, parseInt(it.qty, 10) || 1)),
-                  discount: String(it.discount === 0.5 ? 'bogo' : (it.discount || '1')),
+                  discount: DISCOUNT_LABELS.hasOwnProperty(String(it.discount || '1'))
+                    ? String(it.discount || '1')
+                    : '1',
                   dollarOff: Number(it.dollarOff) > 0 ? Number(it.dollarOff) : 0,
                   checked: it.checked !== false,
                   createdAt: it.createdAt || Date.now()
@@ -1494,7 +1542,7 @@
         el.itemQtySelect.value = String(Math.min(99, Math.max(1, item.qty)));
         syncQtyArrowState();
         el.itemDiscountSelect.value = DISCOUNT_LABELS.hasOwnProperty(String(item.discount))
-          ? String(item.discount === '0.5' ? 'bogo' : item.discount)
+          ? String(item.discount)
           : '1';
         el.itemDollarOffInput.value = item.dollarOff > 0 ? String(item.dollarOff) : '';
 
@@ -1557,7 +1605,8 @@
           saveState();
           exitEditMode();
         } else {
-          state.items.unshift({
+          // Append new items to the bottom of the list (oldest at top, newest at bottom)
+          state.items.push({
             id: generateId(),
             name: name,
             price: price,
@@ -1585,11 +1634,22 @@
       function renderToolbar() {
         const totalCount = state.items.length;
         const checkedCount = state.items.filter(i => i.checked).length;
+        const allChecked = totalCount > 0 && checkedCount === totalCount;
+        const someChecked = checkedCount > 0 && checkedCount < totalCount;
+
+        // Master Checkbox state: checked (全不選) / indeterminate (全選) / unchecked (全選)
+        el.masterSelectBtn.disabled = totalCount === 0;
+        el.masterSelectBtn.classList.toggle('is-checked', allChecked);
+        el.masterSelectBtn.classList.toggle('is-indeterminate', someChecked);
+        el.masterSelectBtn.setAttribute(
+          'aria-checked',
+          allChecked ? 'true' : (someChecked ? 'mixed' : 'false')
+        );
+        el.masterSelectLabel.textContent = allChecked ? '全不選' : '全選';
 
         el.sortToggleBtn.classList.toggle('active', state.sortByChecked);
         el.sortToggleBtn.setAttribute('aria-pressed', String(state.sortByChecked));
 
-        el.uncheckAllBtn.disabled = checkedCount === 0;
         el.clearCheckedBtn.disabled = checkedCount === 0;
         el.clearAllBtn.disabled = totalCount === 0;
       }
@@ -1676,7 +1736,7 @@
                 aria-pressed="${item.checked}"
               >
                 <span class="checkbox-visual">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--checkbox-icon)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </span>
@@ -1806,8 +1866,8 @@
           state.items = state.items.filter(i => i.id !== editingId);
           saveState();
           exitEditMode();
-          if (target) showToast(`已刪除「${target.name}」`);
-        });
+        // Edit Mode Cancel
+        el.cancelEditBtn.addEventListener('click', exitEditMode);
 
         // Shopping List Click Delegation
         el.shoppingList.addEventListener('click', (e) => {
@@ -1865,19 +1925,20 @@
         });
 
         // Toolbar Actions
+        el.masterSelectBtn.addEventListener('click', () => {
+          if (state.items.length === 0) return;
+          const allChecked = state.items.every(i => i.checked);
+          const nextChecked = !allChecked;
+          state.items.forEach(item => { item.checked = nextChecked; });
+          saveState();
+          renderAll();
+          showToast(nextChecked ? '已全選' : '已取消全部勾選');
+        });
+
         el.sortToggleBtn.addEventListener('click', () => {
           state.sortByChecked = !state.sortByChecked;
           saveState();
           renderAll();
-        });
-
-        el.uncheckAllBtn.addEventListener('click', () => {
-          const checkedCount = state.items.filter(i => i.checked).length;
-          if (checkedCount === 0) return;
-          state.items.forEach(item => { item.checked = false; });
-          saveState();
-          renderAll();
-          showToast('已取消全部勾選');
         });
 
         el.clearCheckedBtn.addEventListener('click', () => {
