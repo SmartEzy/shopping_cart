@@ -267,7 +267,7 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Quantity Unified Control: Select Left + ◀ ▶ Arrows Side-by-Side Right */
+    /* Quantity Unified Control: Numeric Input + ▾ Select Overlay + ◀ ▶ Arrows */
     .qty-box {
       height: 48px;
       border-radius: var(--radius-md);
@@ -275,8 +275,8 @@
       background-color: var(--bg-input);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 4px 0 8px;
+      gap: 2px;
+      padding: 0 4px;
       transition: border-color 0.18s, box-shadow 0.18s;
       min-width: 0;
       overflow: hidden;
@@ -287,9 +287,10 @@
       box-shadow: 0 0 0 2px rgba(168, 186, 201, 0.24);
     }
 
-    .qty-select {
+    .qty-input {
       flex: 1;
       min-width: 24px;
+      width: 100%;
       height: 100%;
       border: none;
       background: transparent;
@@ -298,28 +299,62 @@
       font-weight: 600;
       font-family: inherit;
       font-variant-numeric: tabular-nums;
+      text-align: center;
       outline: none;
+      padding: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .qty-select-wrap {
+      position: relative;
+      width: 20px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .qty-select-wrap:active {
+      background-color: var(--bg-page);
+    }
+
+    .qty-select-caret {
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .qty-select {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      border: none;
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      padding: 0;
     }
 
     .qty-arrows {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       flex-shrink: 0;
     }
 
     .qty-arrow-btn {
-      width: 26px;
+      width: 24px;
       height: 36px;
       border: none;
       border-radius: var(--radius-sm);
       background-color: var(--bg-page);
       color: var(--text-primary);
-      font-size: 11px;
+      font-size: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1014,68 +1049,33 @@
 
     @media (max-width: 360px) {
       .qty-arrow-btn {
-        width: 22px;
+        width: 21px;
+      }
+      .qty-select-wrap {
+        width: 18px;
       }
       .footer-total-val {
         font-size: 18px;
       }
-      .footer-deduct-input {
-        width: 38px;
-      }
-      .pill-btn {
-        padding: 0 7px;
-        font-size: 12px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Crisp Solid Sticky Top Header -->
-  <header class="app-header">
-    <div class="app-header-inner">
-      <h1 class="brand-title">購物車</h1>
-      <button type="button" id="budgetBarBtn" class="budget-bar" aria-label="設定預算">
-        <div class="budget-bar-top">
-          <span id="budgetLabelText" class="budget-bar-label">設定預算</span>
-          <span id="budgetRightText" class="budget-bar-muted"></span>
-        </div>
-        <div class="budget-track">
-          <div id="budgetFill" class="budget-fill"></div>
-        </div>
-      </button>
-    </div>
-  </header>
-
-  <div class="app-container">
-    <!-- Compact 2-Row Frameless Input Area -->
-    <section id="inputPanel" class="input-panel" aria-label="輸入區">
-      <form id="itemForm" novalidate>
-        <!-- Row 1: 品項名稱 | 單價 | 數量 -->
-        <div class="form-row-1">
-          <div class="name-field-wrap">
+/* ... existing code ... -->
+          <div class="qty-box">
             <input
               type="text"
-              id="itemNameInput"
-              class="field-input"
-              placeholder="品項名稱"
+              id="itemQty"
+              class="qty-input field-numeric"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              value="1"
               autocomplete="off"
-              enterkeyhint="next"
+              enterkeyhint="done"
+              aria-label="數量"
             >
-            <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
-          </div>
-
-          <input
-            type="text"
-            inputmode="decimal"
-            id="itemPriceInput"
-            class="field-input field-numeric"
-            placeholder="單價"
-            autocomplete="off"
-            enterkeyhint="done"
-          >
-
-          <div class="qty-box">
-            <select id="itemQtySelect" class="qty-select" aria-label="數量"></select>
+            <div class="qty-select-wrap" title="快速選擇數量">
+              <span class="qty-select-caret" aria-hidden="true">▾</span>
+              <select id="itemQtySelect" class="qty-select" aria-label="快速選擇數量">
+                <option value="1" selected>1</option>
+              </select>
+            </div>
             <div class="qty-arrows">
               <button type="button" id="qtyDecBtn" class="qty-arrow-btn" aria-label="減少數量">◀</button>
               <button type="button" id="qtyIncBtn" class="qty-arrow-btn" aria-label="增加數量">▶</button>
@@ -1271,6 +1271,7 @@
         itemNameInput: document.getElementById('itemNameInput'),
         autocompleteDropdown: document.getElementById('autocompleteDropdown'),
         itemPriceInput: document.getElementById('itemPriceInput'),
+        itemQty: document.getElementById('itemQty'),
         itemQtySelect: document.getElementById('itemQtySelect'),
         qtyDecBtn: document.getElementById('qtyDecBtn'),
         qtyIncBtn: document.getElementById('qtyIncBtn'),
@@ -1313,20 +1314,42 @@
          ========================================= */
       function populateQtySelect() {
         el.itemQtySelect.innerHTML = '';
-        for (let i = 1; i <= 99; i++) {
+        for (let i = 1; i <= 20; i++) {
           const opt = document.createElement('option');
           opt.value = String(i);
           opt.textContent = String(i);
+          if (i === 1) opt.selected = true;
           el.itemQtySelect.appendChild(opt);
         }
-        el.itemQtySelect.value = '1';
+        setQtyValue(1);
+      }
+
+      /**
+       * Sanitizes integer inputs (converts full-width digits, keeps digits only).
+       */
+      function sanitizeIntInput(raw) {
+        return String(raw)
+          .replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))
+          .replace(/[^0-9]/g, '');
+      }
+
+      function getQtyValue() {
+        const parsed = parseInt(sanitizeIntInput(el.itemQty.value), 10);
+        return (!isNaN(parsed) && parsed >= 1) ? parsed : 1;
+      }
+
+      function setQtyValue(val) {
+        const safe = Math.max(1, parseInt(val, 10) || 1);
+        el.itemQty.value = String(safe);
+        if (safe >= 1 && safe <= 20) {
+          el.itemQtySelect.value = String(safe);
+        }
         syncQtyArrowState();
       }
 
       function syncQtyArrowState() {
-        const val = parseInt(el.itemQtySelect.value, 10) || 1;
+        const val = getQtyValue();
         el.qtyDecBtn.disabled = val <= 1;
-        el.qtyIncBtn.disabled = val >= 99;
       }
 
       /**
@@ -1400,31 +1423,40 @@
       }
 
       /**
-       * Reliably auto-selects all text on focus for both iOS Safari and desktop browsers.
+       * Reliably auto-selects all text on focus/tap for both iOS Safari and desktop browsers.
        */
-      function attachAutoSelect(inputEl) {
+      function enableAutoSelect(inputEl) {
         let justFocused = false;
+
+        const selectAll = () => {
+          if (document.activeElement !== inputEl) return;
+          const len = inputEl.value.length;
+          if (len === 0) return;
+          inputEl.select();
+          try {
+            inputEl.setSelectionRange(0, len);
+          } catch (e) {
+            // Ignore if input type does not support setSelectionRange
+          }
+        };
 
         inputEl.addEventListener('focus', () => {
           justFocused = true;
-          setTimeout(() => {
-            if (document.activeElement === inputEl && inputEl.value.length > 0) {
-              inputEl.select();
-              try {
-                inputEl.setSelectionRange(0, inputEl.value.length);
-              } catch (e) {
-                // Ignore if input type does not support setSelectionRange
-              }
-            }
-          }, 10);
+          selectAll();
+          requestAnimationFrame(selectAll);
+          setTimeout(selectAll, 60);
         });
 
-        inputEl.addEventListener('mouseup', (e) => {
+        const handleRelease = (e) => {
           if (justFocused) {
             e.preventDefault();
+            selectAll();
             justFocused = false;
           }
-        });
+        };
+
+        inputEl.addEventListener('mouseup', handleRelease);
+        inputEl.addEventListener('pointerup', handleRelease);
 
         inputEl.addEventListener('blur', () => {
           justFocused = false;
@@ -1445,7 +1477,7 @@
                   id: it.id || generateId(),
                   name: String(it.name || ''),
                   price: Number(it.price) || 0,
-                  qty: Math.min(99, Math.max(1, parseInt(it.qty, 10) || 1)),
+                  qty: Math.max(1, parseInt(it.qty, 10) || 1),
                   discount: DISCOUNT_LABELS.hasOwnProperty(String(it.discount || '1'))
                     ? String(it.discount || '1')
                     : '1',
@@ -1539,8 +1571,7 @@
 
         el.itemNameInput.value = item.name;
         el.itemPriceInput.value = String(item.price);
-        el.itemQtySelect.value = String(Math.min(99, Math.max(1, item.qty)));
-        syncQtyArrowState();
+        setQtyValue(item.qty);
         el.itemDiscountSelect.value = DISCOUNT_LABELS.hasOwnProperty(String(item.discount))
           ? String(item.discount)
           : '1';
@@ -1558,8 +1589,7 @@
 
         el.itemNameInput.value = '';
         el.itemPriceInput.value = '';
-        el.itemQtySelect.value = '1';
-        syncQtyArrowState();
+        setQtyValue(1);
         el.itemDiscountSelect.value = '1';
         el.itemDollarOffInput.value = '';
 
@@ -1573,7 +1603,7 @@
         const name = el.itemNameInput.value.trim();
         const priceStr = sanitizeDecimalInput(el.itemPriceInput.value);
         const price = parseFloat(priceStr);
-        const qty = Math.min(99, Math.max(1, parseInt(el.itemQtySelect.value, 10) || 1));
+        const qty = getQtyValue();
         const discount = el.itemDiscountSelect.value || '1';
         const dollarOffVal = parseFloat(sanitizeDecimalInput(el.itemDollarOffInput.value));
         const dollarOff = (!isNaN(dollarOffVal) && dollarOffVal > 0) ? Math.round(dollarOffVal * 100) / 100 : 0;
@@ -1761,7 +1791,6 @@
                   class="row-stepper-btn"
                   data-action="inc"
                   aria-label="增加數量"
-                  ${item.qty >= 99 ? 'disabled' : ''}
                 >+</button>
               </div>
 
@@ -1803,14 +1832,15 @@
       function bindEvents() {
         el.itemForm.addEventListener('submit', handleFormSubmit);
 
-        // Attach Auto-Select All on Focus for ALL Inputs
+        // Attach Auto-Select All on Focus/Tap for ALL Inputs
         [
           el.itemNameInput,
           el.itemPriceInput,
+          el.itemQty,
           el.itemDollarOffInput,
           el.flatDiscountInput,
           el.budgetModalInput
-        ].forEach(attachAutoSelect);
+        ].forEach(enableAutoSelect);
 
         // Item Name Autocomplete
         el.itemNameInput.addEventListener('input', renderAutocomplete);
@@ -1840,32 +1870,36 @@
 
         // Quantity Control Select + ◀ ▶ Arrows
         el.itemQtySelect.addEventListener('change', syncQtyArrowState);
+        // Quantity Control: Numeric Input + ▾ 1-20 Select + ◀ ▶ Arrows
+        el.itemQty.addEventListener('input', (e) => {
+          const clean = sanitizeIntInput(e.target.value);
+          if (e.target.value !== clean) e.target.value = clean;
+          const num = parseInt(clean, 10);
+          if (!isNaN(num) && num >= 1 && num <= 20) {
+            el.itemQtySelect.value = String(num);
+          }
+          syncQtyArrowState();
+        });
+
+        el.itemQty.addEventListener('blur', () => {
+          setQtyValue(getQtyValue());
+        });
+
+        el.itemQtySelect.addEventListener('change', () => {
+          setQtyValue(el.itemQtySelect.value);
+        });
 
         el.qtyDecBtn.addEventListener('click', () => {
-          const current = parseInt(el.itemQtySelect.value, 10) || 1;
+          const current = getQtyValue();
           if (current > 1) {
-            el.itemQtySelect.value = String(current - 1);
-            syncQtyArrowState();
+            setQtyValue(current - 1);
           }
         });
 
         el.qtyIncBtn.addEventListener('click', () => {
-          const current = parseInt(el.itemQtySelect.value, 10) || 1;
-          if (current < 99) {
-            el.itemQtySelect.value = String(current + 1);
-            syncQtyArrowState();
-          }
+          setQtyValue(getQtyValue() + 1);
         });
 
-        // Edit Mode Cancel & Delete
-        el.cancelEditBtn.addEventListener('click', exitEditMode);
-
-        el.deleteEditBtn.addEventListener('click', () => {
-          if (!editingId) return;
-          const target = state.items.find(i => i.id === editingId);
-          state.items = state.items.filter(i => i.id !== editingId);
-          saveState();
-          exitEditMode();
         // Edit Mode Cancel
         el.cancelEditBtn.addEventListener('click', exitEditMode);
 
@@ -1893,8 +1927,7 @@
             if (item.qty > 1) {
               item.qty -= 1;
               if (editingId === item.id) {
-                el.itemQtySelect.value = String(item.qty);
-                syncQtyArrowState();
+                setQtyValue(item.qty);
               }
               saveState();
               renderAll();
@@ -1904,15 +1937,12 @@
 
           if (action === 'inc') {
             e.stopPropagation();
-            if (item.qty < 99) {
-              item.qty += 1;
-              if (editingId === item.id) {
-                el.itemQtySelect.value = String(item.qty);
-                syncQtyArrowState();
-              }
-              saveState();
-              renderAll();
+            item.qty += 1;
+            if (editingId === item.id) {
+              setQtyValue(item.qty);
             }
+            saveState();
+            renderAll();
             return;
           }
 
